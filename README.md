@@ -28,6 +28,19 @@ O projeto foi desenvolvido utilizando a extensão **PlatformIO** (VS Code) para 
 
 ---
 
+## 🔌 Pinagem dos Motores
+
+| Motor | Lado | IN1 | IN2 | Função |
+|---|---|---:|---:|---|
+| `motorFrenteEsq` | Esquerdo | GPIO 13 | GPIO 12 | Roda dianteira esquerda |
+| `motorTrasEsq` | Esquerdo | GPIO 14 | GPIO 27 | Roda traseira esquerda |
+| `motorFrenteDir` | Direito | GPIO 26 | GPIO 25 | Roda dianteira direita |
+| `motorTrasDir` | Direito | GPIO 33 | GPIO 32 | Roda traseira direita |
+
+> **Observação:** `IN1` e `IN2` correspondem às entradas de controle da ponte H associada a cada motor. A direção efetiva do motor depende da polaridade da ligação física e pode exigir a inversão dos sinais caso o sentido observado seja diferente do esperado.
+
+---
+
 ## 📡 Conectividade e Servidor Web
 
 A inteligência de rede do 4WD JuaMaker foi desenhada para funcionar "em campo", ou seja, em locais sem internet ou sem um roteador Wi-Fi por perto.
@@ -89,16 +102,44 @@ Para replicar ou gravar atualizações neste projeto:
 
 --- 
 
-## 🗺️ Roadmap (Próximos Passos)
+## 🗺️ Roadmap
 
-O projeto ainda está incompleto! Abaixo estão listadas algumas das melhorias e novas funcionalidades planejadas para as próximas versões:
+O projeto ainda está em desenvolvimento. As próximas etapas estão organizadas
+priorizando evolução da experiência de controle, robustez do sistema e
+integração com novos componentes de hardware.
 
 ### 💻 Software e Interface Web
-- [ ] **Integração com Gamepad API:** Permitir controlar o robô usando controles de videogame pareados.
-- [ ] **OTA (Over-The-Air) Updates:** Permitir que o código C++ seja atualizado pela própria página web, sem precisar conectar o cabo USB novamente.
-- [ ] **Proteção de usuários:** Não faço ideia do que acontece se duas pessoas se conectarem ao mesmo tempo, mas não deve dar muito certo.
 
-### ⚙️ Hardware e Eletrônica
-- [ ] **Validar a movimentação do robô:** Tanto validar a lógica, quanto verificar se as baterias conseguem mover os 4 motores, se não tem que ajustar elas.
-- [ ] **Feedback Visual/Sonoro:** Adicionar LEDs (faróis/setas) ou um buzzer (buzina) controláveis pela interface.
-- [ ] **Sensores:** Pensar em conectividade com sensores, como um ultrassônico para freiar perto de paredes e emitir buzzer, é uma possibilidade mas existem outras.
+- [ ] **Controle via Gamepad API:** Permitir controlar o robô utilizando
+      controles de videogame.
+
+- [ ] **Controle de velocidade progressivo:** Permitir diferentes níveis
+      de aceleração e desaceleração em vez de aplicar a potência diretamente.
+
+- [ ] **Execução de sequências não bloqueante:** Substituir o uso de
+      `delay()` por controle baseado em `millis()`, permitindo que o
+      servidor continue processando requisições durante movimentos
+      programados.
+
+- [ ] **Gerenciamento de múltiplos clientes:** Definir o comportamento
+      quando mais de um dispositivo estiver conectado simultaneamente,
+      incluindo prioridade de controle e prevenção de comandos conflitantes.
+
+- [ ] **OTA (Over-The-Air):** Permitir atualização do firmware pela rede
+      sem necessidade de conexão USB.
+
+### ⚙️ Hardware e Controle
+
+- [ ] **Calibração dos motores:** Compensar diferenças de velocidade entre
+      os motores para obter trajetórias mais consistentes.
+
+- [ ] **Feedback visual e sonoro:** Adicionar LEDs, setas e/ou buzzer
+      controláveis pela interface.
+
+### 🤖 Sensoriamento e Autonomia
+
+- [ ] **Sensor de distância:** Adicionar sensores ultrassônicos
+      para detecção de obstáculos.
+
+- [ ] **Frenagem automática:** Utilizar os sensores para reduzir ou
+      interromper o movimento diante de obstáculos.
