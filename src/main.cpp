@@ -221,16 +221,24 @@ void handleMove() {
 
 // -> Serve o site
 void handleRoot() {
-    if (LittleFS.exists("/index.html")) {
-        server.send(LittleFS, "/index.html", "text/html; charset=utf-8");
-    } 
-    else {
-        server.send(
-            500,
-            "text/plain",
-            "index.html nao encontrado no LittleFS"
-        );
+    if (!LittleFS.exists("/index.html")) {
+        server.send(500, "text/plain", "index.html NAO existe no LittleFS");
+        return;
     }
+
+    File file = LittleFS.open("/index.html", "r");
+
+    if (!file) {
+        server.send(500, "text/plain", "Erro ao abrir index.html");
+        return;
+    }
+
+    Serial.print("Enviando index.html - tamanho: ");
+    Serial.println(file.size());
+
+    server.streamFile(file, "text/html; charset=utf-8");
+
+    file.close();
 }
 
 
@@ -292,11 +300,18 @@ void setup() {
 
         if (LittleFS.exists("/index.html")) {
 
-            server.send(
-                LittleFS,
-                "/index.html",
-                "text/html; charset=utf-8"
-            );
+            File file = LittleFS.open("/index.html", "r");
+
+            if (file) {
+                server.streamFile(file, "text/html; charset=utf-8");
+                file.close();
+            } else {
+                server.send(
+                    404,
+                    "text/plain",
+                    "Pagina nao encontrada"
+                );
+            }
 
         } 
         else {
